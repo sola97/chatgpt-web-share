@@ -2,8 +2,8 @@ name: Build and publish Docker image
 
 on:
   push:
-    tags: ["v*"]
-    branches: ["test-workflow"]
+    branches:
+      - 'main'
   workflow_dispatch:
     inputs:
       version:
@@ -83,11 +83,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/${{ env.IMAGE_NAME }}
             ${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{version}}${{ github.event_name == 'workflow_dispatch' && format(',value={0}', github.event.inputs.version) || '' }}
-            type=semver,pattern={{major}}.{{minor}}${{ github.event_name == 'workflow_dispatch' && format(',value={0}', github.event.inputs.version) || '' }}
+            latest
 
       # - name: Create Sentry release
       #   uses: getsentry/action-release@v1

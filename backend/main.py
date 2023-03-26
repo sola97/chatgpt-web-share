@@ -24,6 +24,7 @@ from api.middlewares import AccessLoggerMiddleware, StatisticsMiddleware
 from api.models.db import User
 from api.response import CustomJSONResponse, handle_exception_response
 from api.routers import users, conv, chat, system, status
+from api.routers import updateToken
 from api.schema import UserCreate, UserSettingSchema
 from api.sources import RevChatGPTManager
 from api.users import get_user_manager_context
@@ -50,11 +51,11 @@ app.include_router(conv.router)
 app.include_router(chat.router)
 app.include_router(system.router)
 app.include_router(status.router)
-
+app.include_router(updateToken.router)
 # 解决跨站问题
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=config.http.cors_allow_origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
