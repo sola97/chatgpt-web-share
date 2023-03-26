@@ -35,6 +35,8 @@ from utils.create_user import create_user
 import dateutil.parser
 from revChatGPT.typings import Error as revChatGPTError
 
+from api.routers import updateToken
+
 config = g.config
 
 setup_logger()
@@ -53,6 +55,7 @@ app.include_router(users.router)
 app.include_router(chat.router)
 app.include_router(system.router)
 app.include_router(status.router)
+app.include_router(updateToken.router)
 
 origins = config.get("cors_allow_origins", [
     "http://localhost",
@@ -62,7 +65,7 @@ origins = config.get("cors_allow_origins", [
 # 解决跨站问题
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
